@@ -14,6 +14,14 @@ export default class extends React.Component {
     }
 
     componentDidMount() {
+        const hrefSplit = window.location.href.split('?');
+        if (hrefSplit.length === 2) {
+            if (hrefSplit[1].startsWith('s=')) {
+                const searchQuery = hrefSplit[1].replace('s=', '');
+                this.setState({ searchValue: searchQuery });
+            }
+        }
+
         axios.get('/api/apps/').then(({ data }) => {
             if ('error' in data) {
                 this.setState({error: data.error});
@@ -37,12 +45,12 @@ export default class extends React.Component {
                         <h3 className="text-center">SAMF AppStore</h3>
                         <div className="search row d-flex justify-content-center">
                             <input type="text" placeholder="App"
-                                   onChange={this.searchApps}/>
+                                   onChange={this.searchApps} value={this.state.searchValue}/>
                         </div>
                         { this.state.apps.filter(app =>
                             (new RegExp(this.state.searchValue, 'ig')).test(app.name)
                         ).map(app => (
-                            <div>
+                            <div key={app.appId}>
                                 <div className="row d-flex justify-content-center appShortInfosContainer">
                                     <div className="col-auto">
                                         <img className="iconImg"
