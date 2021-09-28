@@ -2,8 +2,8 @@ let mysql = require('mysql');
 
 module.exports = mysql.createPool({
     connectionLimit : 10,
-    host     : 'plesk.samf.me',
-    user     : 'admin_appstore',
-    password : 'l9v1!Ov4',
-    database : 'custom_appstore'
+    host     : process.env.DB_HOST,
+    user     : process.env.DB_USER,
+    password : process.env.DB_PASSWORD,
+    database : process.env.DB_NAME
 });
